@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, View, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient"; 
 import "../global.css";
+import { router } from "expo-router";
 
 export default function App() {
   return (
@@ -26,7 +27,9 @@ export default function App() {
 
       {/* Bottom Button */}
       <View className=" items-center justify-center px-6 pb-10">
-        <TouchableOpacity className="w-64 h-12 bg-white py-3  rounded-xl shadow-lg active:opacity-90 border-1 border-purple-700 flex items-center justify-center">
+        <TouchableOpacity
+        onPress={() => router.push("/login")}
+         className="w-64 h-12 bg-white py-3  rounded-xl shadow-lg active:opacity-90 border-1 border-purple-700 flex items-center justify-center">
           <Text className="text-purple-700 text-center font-bold text-lg">
             Mark Attendance
           </Text>
