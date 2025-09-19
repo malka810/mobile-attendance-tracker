@@ -11,8 +11,6 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "nativewind.d.ts",
-    "metro.config.js",
     "nativewind-env.d.ts"
-  ]
+, "tailwind.config.js"  ]
 }
