@@ -32,7 +32,7 @@ A mobile application for managing student attendance using QR codes.  Built with
 - Audit logs and detailed reports  
 
 ## Tech Stack
-- **Frontend:** React Native (Expo or bare workflow)  
+- **Frontend:** React Native (Expo)  
 - **Backend:** Firebase Cloud Functions (Node.js)  
 - **Database:** Firebase Firestore  
 - **Authentication:** Firebase Auth  
