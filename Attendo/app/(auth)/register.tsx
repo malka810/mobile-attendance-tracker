@@ -2,22 +2,12 @@ import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { Input } from "@/components/ui/Input";
-import { Ionicons } from "@expo/vector-icons"; // eye icon
-import { useAuth } from "@/hooks/useAuth";
-
-type AuthContextType = {
-  signUp: (
-    fullName: string,
-    email: string,
-    password: string,
-    userCode: string,
-    phoneNumber: string
-  ) => Promise<void>;
-};
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Register() {
-  const { signUp } = useAuth() as AuthContextType;
+  const { signUp } = useAuth();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,7 +28,6 @@ export default function Register() {
       setError("All fields are required");
       return;
     }
-
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -46,7 +35,8 @@ export default function Register() {
 
     setBusy(true);
     try {
-      await signUp(fullName, email, password, userCode, phoneNumber); 
+      await signUp(fullName, email, password, userCode, phoneNumber);
+      alert("Registration successful!"); // just for testing
     } catch (err: any) {
       setError(err.message || "Registration failed");
     } finally {
@@ -63,93 +53,31 @@ export default function Register() {
         <Text className="text-gray-200 text-base text-center mb-6">
           Sign up to continue
         </Text>
+
         {error && <Text className="text-red-500 text-center mb-3">{error}</Text>}
 
-        <Input
-          placeholder="Full Name"
-          value={fullName}
-          onChangeText={setFullName}
-          className="mb-4 border border-gray-300 p-2 w-full rounded"
-          placeholderTextColor="#fff"
-        />
-
-        <Input
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          className="mb-4 border border-gray-300 p-2 w-full rounded"
-          placeholderTextColor="#fff"
-        />
-
-        <Input
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          keyboardType="phone-pad"
-          className="mb-4 border border-gray-300 p-2 w-full rounded"
-          placeholderTextColor="#fff"
-        />
+        <Input placeholder="Full Name" value={fullName} onChangeText={setFullName} className="mb-4 border p-2 rounded" placeholderTextColor="#fff" />
+        <Input placeholder="Email" value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" className="mb-4 border p-2 rounded" placeholderTextColor="#fff" />
+        <Input placeholder="Phone Number" value={phoneNumber} onChangeText={setPhoneNumber} keyboardType="phone-pad" className="mb-4 border p-2 rounded" placeholderTextColor="#fff" />
 
         <View className="relative mb-4">
-          <Input
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-            className="pr-10 border border-gray-300 p-2 w-full rounded"
-            placeholderTextColor="#fff"
-          />
-          <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-2"
-          >
-            <Ionicons
-              name={showPassword ? "eye-off" : "eye"}
-              size={22}
-              color="#fff"
-            />
+          <Input placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={!showPassword} className="pr-10 border p-2 rounded" placeholderTextColor="#fff" />
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className="absolute right-3 top-2">
+            <Ionicons name={showPassword ? "eye-off" : "eye"} size={22} color="#fff" />
           </TouchableOpacity>
         </View>
 
         <View className="relative mb-4">
-          <Input
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry={!showConfirmPassword}
-            className="pr-10 border border-gray-300 p-2 w-full rounded"
-            placeholderTextColor="#fff"
-          />
-          <TouchableOpacity
-            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-3 top-2"
-          >
-            <Ionicons
-              name={showConfirmPassword ? "eye-off" : "eye"}
-              size={22}
-              color="#fff"
-            />
+          <Input placeholder="Confirm Password" value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry={!showConfirmPassword} className="pr-10 border p-2 rounded" placeholderTextColor="#fff" />
+          <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-2">
+            <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} size={22} color="#fff" />
           </TouchableOpacity>
         </View>
 
-        <Input
-          placeholder="User Code"
-          value={userCode}
-          onChangeText={setUserCode}
-          className="mb-6 border border-gray-300 p-2 w-full rounded"
-          placeholderTextColor="#fff"
-        />
+        <Input placeholder="User Code" value={userCode} onChangeText={setUserCode} className="mb-6 border p-2 rounded" placeholderTextColor="#fff" />
 
-        <TouchableOpacity
-          onPress={onSubmit}
-          disabled={busy}
-          className="w-70 h-12 bg-white py-3 rounded-xl shadow-lg active:opacity-90 mb-4"
-        >
-          <Text className="text-purple-700 text-center font-bold text-lg">
-            {busy ? "Signing up..." : "Sign Up"}
-          </Text>
+        <TouchableOpacity onPress={onSubmit} disabled={busy} className="w-full h-12 bg-white py-3 rounded-xl shadow-lg mb-4">
+          <Text className="text-purple-700 text-center font-bold text-lg">{busy ? "Signing up..." : "Sign Up"}</Text>
         </TouchableOpacity>
 
         <View className="mt-4 items-center">
