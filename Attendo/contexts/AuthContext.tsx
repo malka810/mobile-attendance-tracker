@@ -1,50 +1,43 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState
-} from "react"
-import { User, onAuthStateChanged } from "firebase/auth"
-import { auth } from "@/firebase"
+import { createContext, ReactNode, useContext, useState } from "react";
 
-// Define the shape of our Auth context
-interface AuthContextType {
-  user: User | null
-  loading: boolean
-}
+type AuthContextType = {
+  user: any;
+  setUser: (user: any) => void;
+  signUp: (
+    fullName: string,
+    email: string,
+    password: string,
+    userCode: string,
+    phoneNumber: string
+  ) => Promise<void>;
+};
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  loading: true
-})
+const AuthContext = createContext<AuthContextType | null>(null);
 
-interface AuthProviderProps {
-  children: ReactNode
-}
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<any>(null);
 
-// AuthProvider component
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser ?? null)
-      setLoading(false)
-    })
-
-    return () => unsubscribe()
-  }, [])
+  const signUp = async (
+    fullName: string,
+    email: string,
+    password: string,
+    userCode: string,
+    phoneNumber: string
+  ) => {
+    console.log("Signing up:", fullName, email);
+    // Replace this with your Firebase/API signup logic
+    setUser({ fullName, email, userCode, phoneNumber });
+  };
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, setUser, signUp }}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
-// Custom hook to use the Auth context
 export const useAuth = () => {
-  return useContext(AuthContext)
-}
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  return ctx;
+};

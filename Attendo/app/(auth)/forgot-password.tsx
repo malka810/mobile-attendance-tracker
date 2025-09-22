@@ -6,7 +6,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 
 export default function ForgotPassword() {
-  const { resetPassword } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);

@@ -1,40 +1,19 @@
-import React from "react";
-import { Text, View, ActivityIndicator } from "react-native";
-import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
-import { useFonts, SpaceMono_400Regular } from "@expo-google-fonts/space-mono";
+// app/_layout.tsx
 import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { LoaderProvider } from "@/contexts/LoaderContext";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [fontsLoaded, fontError] = useFonts({
-    SpaceMono: SpaceMono_400Regular,
-  });
-
-  if (!fontsLoaded && !fontError) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color={colorScheme === "dark" ? "#fff" : "#000"} />
-        <Text style={{ marginTop: 10 }}>Loading fonts...</Text>
-      </View>
-    );
-  }
-
   return (
-    <LoaderProvider>
-      <AuthProvider>
-        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
-        </ThemeProvider>
-      </AuthProvider>
-    </LoaderProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <AuthProvider>
+          <StatusBar style="dark" />
+          <Stack screenOptions={{ headerShown: false }} />
+        </AuthProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
