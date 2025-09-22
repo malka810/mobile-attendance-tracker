@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
-import { Input } from "@/components/ui/Input";
+import { Link, router } from "expo-router";
+import {Input} from "@/components/ui/Input";  
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import { loginUser } from "@/services/authService";
 
 export default function Login() {
@@ -12,45 +11,35 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  
-const onSubmit = async () => {
-  if (!email || !password) {
-    Alert.alert("Error", "Please enter email and password");
-    return;
-  }
 
-  try {
-    setLoading(true);
-    const userData = await loginUser(email, password);
-
-    if (!userData.role) {
-      Alert.alert("Login failed", "Unknown role");
+  const onSubmit = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter email and password");
       return;
     }
 
-    setTimeout(() => {
-      switch (userData.role) {
-        case "admin":
-          router.push("/admin");
-          break;
-        case "student":
-          router.push("/student");
-          break;
-        case "lecturer":
-          router.push("/lecturer");
-          break;
-        case "parent":
-          router.push("/parent");
-          break;
-      }
-    }, 0);
+    try {
+      setLoading(true);
+      const userData = await loginUser(email, password);
 
-  } catch (err: any) {
-    Alert.alert("Login failed", err.message || "Something went wrong");
-  } finally {
-    setLoading(false);
-  }
-};
+      if (!userData.role) {
+        Alert.alert("Login failed", "Unknown role");
+        return;
+      }
+
+      // ✅ only navigate if role = admin
+      if (userData.role === "admin") {
+        router.push("/admin");
+      } else {
+        Alert.alert("Access denied", "You are not an admin");
+      }
+
+    } catch (err: any) {
+      Alert.alert("Login failed", err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <LinearGradient colors={["#6C63FF", "#9A67EA"]} style={{ flex: 1 }}>
@@ -62,28 +51,28 @@ const onSubmit = async () => {
           Sign in to continue
         </Text>
 
+        {/* Email Input */}
         <Input
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
-          className="mb-4 border border-gray-300 p-2 w-full rounded"
           placeholderTextColor="#fff"
         />
 
+        {/* Password Input */}
         <View className="relative mb-4">
           <Input
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
-            className="pr-10 border border-gray-300 p-2 w-full rounded"
             placeholderTextColor="#fff"
           />
           <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-2"
+            style={{ position: "absolute", right: 12, top: 12 }}
           >
             <Ionicons
               name={showPassword ? "eye-off" : "eye"}
@@ -93,10 +82,17 @@ const onSubmit = async () => {
           </TouchableOpacity>
         </View>
 
+        {/* Sign In Button */}
         <TouchableOpacity
           onPress={onSubmit}
           disabled={loading}
-          className="w-70 h-12 bg-white py-3 rounded-xl shadow-lg active:opacity-90 mb-4"
+          style={{
+            height: 48,
+            backgroundColor: "#fff",
+            borderRadius: 12,
+            justifyContent: "center",
+            marginBottom: 16,
+          }}
         >
           {loading ? (
             <ActivityIndicator size="small" color="#6C63FF" />
@@ -106,15 +102,19 @@ const onSubmit = async () => {
             </Text>
           )}
         </TouchableOpacity>
-        
+
+        {/* Links */}
         <View className="mt-6 items-center">
           <Link href="/(auth)/register">
             <Text className="text-white font-medium mt-2">
-              Don’t have an account? <Text className="text-black underline">Sign up</Text>
+              Don’t have an account?{" "}
+              <Text className="text-black underline">Sign up</Text>
             </Text>
           </Link>
           <Link href="/(auth)/forgot-password">
-            <Text className="text-white font-medium mt-2">Forgot password?</Text>
+            <Text className="text-white font-medium mt-2">
+              Forgot password?
+            </Text>
           </Link>
         </View>
       </View>
