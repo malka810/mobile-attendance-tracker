@@ -69,14 +69,12 @@ export default function StudentManagement() {
 
   <TouchableOpacity
     className="bg-orange-300 flex-1 p-3 rounded-xl shadow ml-2"
-    onPress={() => setShowAddCard(false)} // Hide card, show list
+    onPress={() => setShowAddCard(false)} 
   >
     <Text className="text-black font-semibold text-center">📋 View List</Text>
   </TouchableOpacity>
 </View>
 
-
-     {/* Add Student Card */}
 {showAddCard && (
   <View className="bg-white rounded-2xl p-4 mb-4 shadow">
 

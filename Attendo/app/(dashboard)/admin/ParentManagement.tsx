@@ -1,4 +1,4 @@
-// app/(dashboard)/admin/ParentManagement.tsx
+
 import { View, Text, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AdminHeader from "@/components/ui/AdminHeader";

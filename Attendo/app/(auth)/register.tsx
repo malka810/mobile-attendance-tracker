@@ -1,39 +1,70 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link, Redirect } from "expo-router";
+import { Link } from "expo-router";
 import { Input } from "@/components/ui/Input";
+import { Ionicons } from "@expo/vector-icons"; // eye icon
 import { useAuth } from "@/hooks/useAuth";
-import { Ionicons } from "@expo/vector-icons";
+
+type AuthContextType = {
+  signUp: (
+    fullName: string,
+    email: string,
+    password: string,
+    userCode: string,
+    phoneNumber: string
+  ) => Promise<void>;
+};
 
 export default function Register() {
-  const { signUp, user } = useAuth();
+  const { signUp } = useAuth() as AuthContextType;
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userCode, setUserCode] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(""); 
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  
+  const onSubmit = async () => {
+    setError(null);
+
+    if (!fullName || !email || !password || !confirmPassword || !userCode || !phoneNumber) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setBusy(true);
+    try {
+      await signUp(fullName, email, password, userCode, phoneNumber); 
+    } catch (err: any) {
+      setError(err.message || "Registration failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <LinearGradient colors={["#6C63FF", "#9A67EA"]} style={{ flex: 1 }}>
       <View className="flex-1 justify-center px-6">
-        {/* Title */}
         <Text className="text-white text-2xl font-bold text-center mb-1">
           Create Account ✨
         </Text>
         <Text className="text-gray-200 text-base text-center mb-6">
           Sign up to continue
         </Text>
-
-        {/* Error */}
         {error && <Text className="text-red-500 text-center mb-3">{error}</Text>}
 
-        {/* Full Name */}
         <Input
           placeholder="Full Name"
           value={fullName}
@@ -42,7 +73,6 @@ export default function Register() {
           placeholderTextColor="#fff"
         />
 
-        {/* Email */}
         <Input
           placeholder="Email"
           value={email}
@@ -53,7 +83,15 @@ export default function Register() {
           placeholderTextColor="#fff"
         />
 
-        {/* Password */}
+        <Input
+          placeholder="Phone Number"
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          keyboardType="phone-pad"
+          className="mb-4 border border-gray-300 p-2 w-full rounded"
+          placeholderTextColor="#fff"
+        />
+
         <View className="relative mb-4">
           <Input
             placeholder="Password"
@@ -75,7 +113,6 @@ export default function Register() {
           </TouchableOpacity>
         </View>
 
-        {/* Confirm Password */}
         <View className="relative mb-4">
           <Input
             placeholder="Confirm Password"
@@ -97,7 +134,6 @@ export default function Register() {
           </TouchableOpacity>
         </View>
 
-        {/* User Code */}
         <Input
           placeholder="User Code"
           value={userCode}
@@ -106,9 +142,8 @@ export default function Register() {
           placeholderTextColor="#fff"
         />
 
-        {/* Register Button */}
         <TouchableOpacity
-        //   onPress={onSubmit}
+          onPress={onSubmit}
           disabled={busy}
           className="w-70 h-12 bg-white py-3 rounded-xl shadow-lg active:opacity-90 mb-4"
         >
@@ -117,7 +152,6 @@ export default function Register() {
           </Text>
         </TouchableOpacity>
 
-        {/* Links */}
         <View className="mt-4 items-center">
           <Link href="/(auth)/login">
             <Text className="text-white font-medium mt-2">

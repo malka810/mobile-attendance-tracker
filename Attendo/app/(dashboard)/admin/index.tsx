@@ -7,14 +7,14 @@ import AdminHeader from "@/components/ui/AdminHeader";
 export default function AdminDashboard() {
   return (
     <LinearGradient colors={["#6C63FF", "#9A67EA"]} style={{ flex: 1 }}>
-     {/* ===== Header ===== */}
+    
       <AdminHeader />
 
       <ScrollView className="flex-1 px-6">
        
         
 <View className="flex-row flex-wrap justify-between mb-6">
-  {/* Students Card */}
+  
   <LinearGradient
     colors={["#D8B4FE", "#EDE9FE"]}
     start={{ x: 0, y: 0 }}
@@ -28,7 +28,6 @@ export default function AdminDashboard() {
     </View>
   </LinearGradient>
 
-  {/* Lecturers Card */}
   <LinearGradient
     colors={["#BFDBFE", "#E0F2FE"]}
     start={{ x: 0, y: 0 }}
@@ -42,7 +41,6 @@ export default function AdminDashboard() {
     </View>
   </LinearGradient>
 
-  {/* Sessions Card */}
   <LinearGradient
     colors={["#A5F3FC", "#E0F2FE"]}
     start={{ x: 0, y: 0 }}
@@ -56,7 +54,6 @@ export default function AdminDashboard() {
     </View>
   </LinearGradient>
 
-  {/* Active Batches Card */}
   <LinearGradient
     colors={["#FBCFE8", "#FEE2E2"]}
     start={{ x: 0, y: 0 }}
@@ -70,7 +67,6 @@ export default function AdminDashboard() {
     </View>
   </LinearGradient>
 </View>
-         {/* ===== Recent Activity Feed with Avatars ===== */}
         <View className="bg-white rounded-2xl p-6 shadow-lg mb-20">
           <Text className="text-purple-700 font-bold text-lg mb-3">🕑 Recent Activity</Text>
           <View className="gap-3">
@@ -89,7 +85,6 @@ export default function AdminDashboard() {
           </View>
         </View>
 
-        {/* ===== Navigation Cards ===== */}
         <View className="gap-4 mb-6">
           <TouchableOpacity
             onPress={() => router.push("/(dashboard)/admin/UserManagement")}
@@ -144,18 +139,13 @@ export default function AdminDashboard() {
                 <Text className="text-gray-500">Latest system alerts</Text>
               </View>
             </View>
-            {/* 🔔 Badge */}
             <View className="bg-red-500 rounded-full px-2 py-1">
               <Text className="text-white text-xs font-bold">3</Text>
             </View>
-          </TouchableOpacity>
-          
-        </View>
-
-       
+          </TouchableOpacity>         
+        </View>       
       </ScrollView>
 
-      {/* ===== Floating Action Button (FAB) ===== */}
       <TouchableOpacity
         className="absolute bottom-8 right-8 bg-purple-600 rounded-full p-4 shadow-lg"
         onPress={() => router.push("/(dashboard)/admin/UserManagement")}

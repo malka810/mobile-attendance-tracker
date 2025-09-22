@@ -12,9 +12,8 @@ export default function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Just placeholder submit, no backend logic
   const onSubmit = () => {
-    router.push("/(auth)/login"); // navigate to login after reset
+    router.push("/(auth)/login"); 
   };
 
   return (
@@ -27,7 +26,6 @@ export default function ResetPassword() {
           Enter your new password below
         </Text>
 
-        {/* New Password */}
         <View className="relative mb-4">
           <Input
             placeholder="New Password"
@@ -49,7 +47,6 @@ export default function ResetPassword() {
           </TouchableOpacity>
         </View>
 
-        {/* Confirm Password */}
         <View className="relative mb-6">
           <Input
             placeholder="Confirm Password"
@@ -71,7 +68,6 @@ export default function ResetPassword() {
           </TouchableOpacity>
         </View>
 
-        {/* Submit Button */}
         <TouchableOpacity
           onPress={onSubmit}
           className="w-70 h-12 bg-white py-3 rounded-xl shadow-lg active:opacity-90 mb-4"
@@ -81,7 +77,6 @@ export default function ResetPassword() {
           </Text>
         </TouchableOpacity>
 
-        {/* Back to Login */}
         <View className="mt-4 items-center">
           <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
             <Text className="text-white font-medium mt-2 underline">

@@ -1,4 +1,4 @@
-// app/(dashboard)/admin/LecturerManagement.tsx
+
 import { View, Text, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AdminHeader from "@/components/ui/AdminHeader";
@@ -36,7 +36,6 @@ export default function LecturerManagement() {
      <LinearGradient colors={["#6C63FF", "#9A67EA"]} style={{ flex: 1 }}>
       <AdminHeader />
       <ScrollView className="flex-1 p-4">
-        {/* Add/View buttons */}
         <View className="flex-row mb-4">
           <TouchableOpacity
             className="bg-yellow-100 flex-1 p-3 rounded-xl shadow mr-2"
@@ -53,7 +52,6 @@ export default function LecturerManagement() {
           </TouchableOpacity>
         </View>
 
-        {/* Add Lecturer Card */}
         {showAddCard && (
           <View className="bg-white rounded-2xl p-4 mb-4 shadow">
             <Text className="text-lg font-bold mb-2">New Lecturer</Text>

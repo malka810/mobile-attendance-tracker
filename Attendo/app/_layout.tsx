@@ -15,7 +15,6 @@ export default function RootLayout() {
     SpaceMono: SpaceMono_400Regular,
   });
 
-  // Show a loading indicator while fonts are loading
   if (!fontsLoaded && !fontError) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
