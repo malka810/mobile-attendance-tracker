@@ -37,7 +37,21 @@ A mobile application for managing student attendance using QR codes.  Built with
 - **Database:** Firebase Firestore  
 - **Authentication:** Firebase Auth  
 - **Reports/Storage:** Firebase Storage  
-- **Notifications:** Firebase Cloud Messaging (FCM)  
+- **Notifications:** Firebase Cloud Messaging (FCM)
+
+  ## 🎥 Project Walkthrough
+
+Check out the video below for a comprehensive walkthrough of the Attendo App, built with React Native, Expo, and Firebase:
+
+[![Attendo App | React Native + Expo + Firebase](https://img.youtube.com/vi/4x0IKlNJ1TY/maxresdefault.jpg)](https://www.youtube.com/watch?v=4x0IKlNJ1TY)
+
+In this video, I cover:
+
+- 📱 Setting up the Expo project
+- 🔐 Implementing Firebase authentication
+- 🧭 Navigating with Expo Router
+- 🛠️ Building a user-friendly UI
+
 
 
 
